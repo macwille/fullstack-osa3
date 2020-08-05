@@ -1,7 +1,12 @@
 # Fullstack - Osa 3
 
-[Website](https://fullstack3-backend.herokuapp.com/)
+## Single page app
 
-Part of [Fullstack](https://github.com/Viltska/fullstack-course) course.
+App is running on a Heroku server here [Website](https://fullstack3-backend.herokuapp.com/).
 
-This part of the course requires use of Heroku so for ease of use it will be stored in a seperate repository.
+**App is work in progress and may take some time to loading for the first time**
+
+#### Part of Fullstack-course
+
+This app of [Fullstack](https://github.com/Viltska/fullstack-course) course.
+
