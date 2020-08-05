@@ -1,15 +1,20 @@
 
 const express = require('express')
 const morgan = require('morgan')
+const cors = require('cors')
 const app = express()
 
 app.use(express.json())
+app.use(cors())
 app.use(morgan('tiny'))
 
+
+// Morgan token to show data of POST methods.
 morgan.token('body', function (req, res) {
     const body = req.body
     return `Morgan - POST: ${JSON.stringify(body)}`
 })
+// Use of token
 app.use(morgan(':body'))
 
 
