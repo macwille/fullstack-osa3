@@ -22,22 +22,22 @@ let persons = [
     {
         id: 1,
         name: "Person1",
-        number: 050555000
+        number: "050555000"
     },
     {
         id: 2,
         name: "Person2",
-        number: 030555000
+        number: "030555000"
     },
     {
         id: 3,
         name: "Person3",
-        number: 040555000
+        number: "040555000"
     },
     {
         id: 4,
         name: "Person4",
-        number: 060555000
+        number: "060555000"
     }
 ]
 const unknownEndpoint = (req, res) => {
@@ -46,7 +46,7 @@ const unknownEndpoint = (req, res) => {
 
 const generateId = () => {
     const maxId = persons.length > 0
-        ? Math.max(...persons.map(n => n.id))
+        ? Math.max(...persons.map(p => p.id))
         : 0
     return maxId + 1
 }
@@ -81,10 +81,13 @@ app.post('/api/persons', (req, res) => {
         )
     }
 
+    const newId = generateId()
+    console.log(`New ID: ${newId}`)
+
     const person = {
-        id: generateId,
+        id: newId,
         name: body.name,
-        number: Math.floor(Math.random() * 1000000000)
+        number: body.number,
     }
 
     const same = (comp) => comp.name === person.name
@@ -97,6 +100,7 @@ app.post('/api/persons', (req, res) => {
     }
     persons = persons.concat(person)
 
+    console.log(`returned person: ${person}`)
     res.json(person)
 
 })
