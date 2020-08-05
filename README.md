@@ -6,7 +6,7 @@ App is running on a Heroku server here [Website](https://fullstack3-backend.hero
 
 **App is work in progress and may take some time to loading for the first time**
 
-#### Part of Fullstack-course
+## Note
 
 This app of [Fullstack](https://github.com/Viltska/fullstack-course) course.
 
