@@ -1,6 +1,8 @@
 # Fullstack - Osa 3
 
-## Single page app
+Single page phonebook application.
+
+## Heroku server
 
 App is running on a Heroku server here [Website](https://fullstack3-backend.herokuapp.com/).
 
