@@ -6,7 +6,7 @@ Single page phonebook application.
 
 App is running on a Heroku server [here](https://fullstack3-backend.herokuapp.com/).
 
-**App is work in progress and may take some time to loading for the first time**
+**App may be behind current code and may take some time to loading for the first time**
 
 ## Note
 
