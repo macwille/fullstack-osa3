@@ -15,10 +15,11 @@ app.use(morgan('tiny'))
 // Morgan token to show data of POST methods.
 morgan.token('body', function (req, res) {
     const body = req.body
-    return `Morgan - Body: ${JSON.stringify(body)}`
+    return `with body ${JSON.stringify(body)}`
 })
 // Use of token
 app.use(morgan(':body'))
+app.use(morgan(':method :status :res[content-length] - :response-time ms :body'))
 
 
 const unknownEndpoint = (req, res) => {
@@ -29,6 +30,7 @@ const unknownEndpoint = (req, res) => {
 // GET Home page
 app.get('/', (req, res) => {
     res.send("<h1>Hello</h1>")
+
 })
 
 // GET Info page
@@ -39,21 +41,20 @@ app.get("/info", (req, res) => {
         res.send(`<h2>Database has ${count} person(s) information.</h2>
         <p>As of ${date}.</p>`)
 
-    }).catch(error => next(error))
+    })
 })
 
 
 
 // GET Persons as JSON.
-app.get('/api/persons', (req, res) => {
+app.get('/api/persons', (req, res, next) => {
     Person.find({}).then(persons => {
         res.json(persons.map(p => p.toJSON()))
     })
-        .catch(error => next(error))
 })
 
 // POST Add person
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
     const body = req.body
 
     if (!body.content === undefined) {
@@ -61,19 +62,23 @@ app.post('/api/persons', (req, res) => {
     }
 
     const person = new Person({
-        id: body.id,
         name: body.name,
         number: body.number,
     })
 
-    person.save().then(savedPerson => {
-        res.json(savedPerson.toJSON())
-    })
+    person
+        .save()
+        .then(savedPerson => {
+            return savedPerson.toJSON()
+        })
+        .then(savedAndFormatedPerson => {
+            res.json(savedAndFormatedPerson)
+        })
         .catch(error => next(error))
 })
 
 // GET person with id.
-app.get('/api/persons/:id', (req, res) => {
+app.get('/api/persons/:id', (req, res, next) => {
     Person.findById(req.params.id)
         .then(person => {
             if (person) {
@@ -86,7 +91,7 @@ app.get('/api/persons/:id', (req, res) => {
 })
 
 // DELETE person with id.
-app.delete('/api/persons/:id', (req, res) => {
+app.delete('/api/persons/:id', (req, res, next) => {
     Person.findByIdAndRemove(req.params.id)
         .then(result => {
             res.status(204).end()
@@ -114,19 +119,22 @@ app.put('/api/persons/:id', (req, res, next) => {
 })
 
 app.use(unknownEndpoint)
-app.use(morgan(':method :status :res[content-length] - :response-time ms :body'))
 
+const errorHandler = (error, req, res, next) => {
+    console.log('index.js error: ')
+    console.error(error)
 
-const errorHandeler = (error, req, res, next) => {
-    console.error(error.message)
-
-    if (error.name === 'CastError' && error.kind == 'ObjectId') {
+    if (error.name === 'CastError' && error.kind === 'ObjectId') {
         return res.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError') {
+        console.log(`Returned value: ${error.message}`)
+        return res.status(400).json({ error: error.message })
     }
+
     next(error)
 }
 
-app.use(errorHandeler)
+app.use(errorHandler)
 
 const PORT = process.env.PORT || 3001
 
