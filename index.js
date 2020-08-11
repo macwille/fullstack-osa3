@@ -111,11 +111,14 @@ app.put('/api/persons/:id', (req, res, next) => {
 
     console.log(`Update number of id:${req.params.id}`)
 
-    Person.findByIdAndUpdate(req.params.id, person, { new: true })
-        .then(updatedPerson => {
-            res.json(updatedPerson)
-        })
-        .catch(error => next(error))
+    if (person.number.length > 7) {
+        Person.findByIdAndUpdate(req.params.id, person, { new: true })
+            .then(updatedPerson => {
+                res.json(updatedPerson)
+            })
+            .catch(error => next(error))
+    }
+    console.log('Number too short')
 })
 
 app.use(unknownEndpoint)
