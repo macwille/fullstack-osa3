@@ -1,14 +1,11 @@
 # Fullstack - Osa 3
 
-Single page phonebook application.
+Single page React phonebook application using MongoDB.
 
-## Heroku server
+Part of [Fullstack](https://github.com/Viltska/fullstack-course) course, main repo [here](https://github.com/Viltska/fullstack-course).
 
-App is running on a Heroku server [here](https://fullstack3-backend.herokuapp.com/).
+## Website
 
-**App may be behind current code and may take some time to loading for the first time**
+App is running on a Heroku server here [Website](https://fullstack3-backend.herokuapp.com/).
 
-## Note
-
-This app of [Fullstack](https://github.com/Viltska/fullstack-course) course.
 
